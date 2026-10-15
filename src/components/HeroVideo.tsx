@@ -1,0 +1,222 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { calculateVideoScrubbing, type ActiveSide } from '../utils/scrollLayout.ts';
+
+const LEFT_VIDEO_URL =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_39ca84eAE1ODL9hbR5VhoEj8tBf/hf_20260625_154433_532a85d3-dabf-4265-b8bd-19ac6af31842.mp4';
+const RIGHT_VIDEO_URL =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_39ca84eAE1ODL9hbR5VhoEj8tBf/hf_20260625_154401_a664f076-b971-4557-8728-40ef9ea4c49b.mp4';
+
+interface HeroVideoProps {
+  scrollY: number;
+  viewportHeight: number;
+}
+
+export const HeroVideo: React.FC<HeroVideoProps> = ({ scrollY, viewportHeight }) => {
+  const leftVideoRef = useRef<HTMLVideoElement | null>(null);
+  const rightVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  const [isReady, setIsReady] = useState(false);
+  const [activeSide, setActiveSide] = useState<ActiveSide>('right');
+  const lastActiveSideRef = useRef<ActiveSide>('right');
+
+  // Video container hidden once gallery scroll progresses past the first viewport
+  const isPastFirstViewport = scrollY >= viewportHeight && viewportHeight > 0;
+
+  // Track video loading readiness
+  useEffect(() => {
+    let readyLeft = false;
+    let readyRight = false;
+
+    const checkReady = () => {
+      if (readyLeft && readyRight) {
+        setIsReady(true);
+      }
+    };
+
+    const onLeftReady = () => {
+      readyLeft = true;
+      checkReady();
+    };
+
+    const onRightReady = () => {
+      readyRight = true;
+      checkReady();
+    };
+
+    const left = leftVideoRef.current;
+    const right = rightVideoRef.current;
+
+    if (left) {
+      if (left.readyState >= 1) readyLeft = true;
+      left.addEventListener('loadedmetadata', onLeftReady);
+      left.addEventListener('canplay', onLeftReady);
+    }
+    if (right) {
+      if (right.readyState >= 1) readyRight = true;
+      right.addEventListener('loadedmetadata', onRightReady);
+      right.addEventListener('canplay', onRightReady);
+    }
+
+    checkReady();
+
+    // Fallback timer so UI never hangs blank even under strict network / headless conditions
+    const fallbackTimer = setTimeout(() => {
+      setIsReady(true);
+    }, 1200);
+
+    return () => {
+      clearTimeout(fallbackTimer);
+      if (left) {
+        left.removeEventListener('loadedmetadata', onLeftReady);
+        left.removeEventListener('canplay', onLeftReady);
+      }
+      if (right) {
+        right.removeEventListener('loadedmetadata', onRightReady);
+        right.removeEventListener('canplay', onRightReady);
+      }
+    };
+  }, []);
+
+  // Interaction handlers (Desktop mouse scrubbing vs Mobile alternating playback)
+  useEffect(() => {
+    const isTouch =
+      typeof window !== 'undefined' &&
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 1024);
+
+    const leftVideo = leftVideoRef.current;
+    const rightVideo = rightVideoRef.current;
+
+    if (isTouch) {
+      // Touch/Mobile mode: alternating playback loop
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
+
+      let currentPlaying: 'left' | 'right' = 'left';
+      setActiveSide('left');
+      lastActiveSideRef.current = 'left';
+
+      const playCurrent = () => {
+        if (currentPlaying === 'left' && leftVideo) {
+          leftVideo.currentTime = 0;
+          leftVideo.play().catch(() => {});
+        } else if (currentPlaying === 'right' && rightVideo) {
+          rightVideo.currentTime = 0;
+          rightVideo.play().catch(() => {});
+        }
+      };
+
+      const handleLeftEnded = () => {
+        currentPlaying = 'right';
+        setActiveSide('right');
+        lastActiveSideRef.current = 'right';
+        playCurrent();
+      };
+
+      const handleRightEnded = () => {
+        currentPlaying = 'left';
+        setActiveSide('left');
+        lastActiveSideRef.current = 'left';
+        playCurrent();
+      };
+
+      if (leftVideo) {
+        leftVideo.addEventListener('ended', handleLeftEnded);
+      }
+      if (rightVideo) {
+        rightVideo.addEventListener('ended', handleRightEnded);
+      }
+
+      playCurrent();
+
+      return () => {
+        if (leftVideo) {
+          leftVideo.removeEventListener('ended', handleLeftEnded);
+          leftVideo.pause();
+        }
+        if (rightVideo) {
+          rightVideo.removeEventListener('ended', handleRightEnded);
+          rightVideo.pause();
+        }
+      };
+    } else {
+      // Desktop: Pointer horizontal scrubbing
+      let pointerX = window.innerWidth / 2;
+      let rafId: number | null = null;
+
+      const processScrub = () => {
+        const width = window.innerWidth;
+        const result = calculateVideoScrubbing(pointerX, width, lastActiveSideRef.current);
+
+        lastActiveSideRef.current = result.activeSide;
+        setActiveSide(result.activeSide);
+
+        if (!result.inDeadZone) {
+          if (result.activeSide === 'right' && rightVideo && rightVideo.duration && !rightVideo.seeking) {
+            const targetTime = result.progress * rightVideo.duration;
+            // Prevent jitter with minimal delta check
+            if (Math.abs(rightVideo.currentTime - targetTime) > 0.04) {
+              rightVideo.currentTime = targetTime;
+            }
+          } else if (result.activeSide === 'left' && leftVideo && leftVideo.duration && !leftVideo.seeking) {
+            const targetTime = result.progress * leftVideo.duration;
+            if (Math.abs(leftVideo.currentTime - targetTime) > 0.04) {
+              leftVideo.currentTime = targetTime;
+            }
+          }
+        }
+
+        rafId = null;
+      };
+
+      const onMouseMove = (e: MouseEvent) => {
+        pointerX = e.clientX;
+        if (!rafId) {
+          rafId = requestAnimationFrame(processScrub);
+        }
+      };
+
+      window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+      return () => {
+        window.removeEventListener('mousemove', onMouseMove);
+        if (rafId) cancelAnimationFrame(rafId);
+      };
+    }
+  }, []);
+
+  return (
+    <div
+      aria-hidden="true"
+      className={`fixed transition-opacity duration-700 select-none ${
+        isPastFirstViewport ? 'opacity-0 pointer-events-none' : isReady ? 'opacity-100' : 'opacity-0'
+      } inset-0 md:inset-0 top-[220px] md:top-0 h-[calc(100vh-220px)] md:h-full w-full z-0 overflow-hidden bg-neutral-900`}
+      style={{
+        visibility: isPastFirstViewport ? 'hidden' : 'visible',
+      }}
+    >
+      {/* LEFT VIDEO (initially hidden until active) */}
+      <video
+        ref={leftVideoRef}
+        src={LEFT_VIDEO_URL}
+        muted
+        playsInline
+        preload="auto"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+          activeSide === 'left' ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+
+      {/* RIGHT VIDEO (initially displayed) */}
+      <video
+        ref={rightVideoRef}
+        src={RIGHT_VIDEO_URL}
+        muted
+        playsInline
+        preload="auto"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+          activeSide === 'right' ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+    </div>
+  );
+};

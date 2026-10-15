@@ -1,0 +1,6 @@
+{
+  "name": "Wani General Store",
+  "description": "Discover Wani General Store — everyday essentials, thoughtfully selected for your home and lifestyle. A cinematic, scroll-driven archive and showcase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
