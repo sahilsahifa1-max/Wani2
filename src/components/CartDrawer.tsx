@@ -191,9 +191,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           </button>
                         </div>
 
-                        <div className="flex items-center gap-2 text-[11px] text-neutral-500 mt-1 font-mono">
+                        <div className="flex items-center gap-2 text-[11px] text-neutral-500 mt-1">
                           <span>Size: {item.size}</span>
-                          <span>•</span>
+                          <span className="inline-block w-1 h-1 rounded-full bg-neutral-300" />
                           <span className="flex items-center gap-1">
                             <span
                               className="w-2.5 h-2.5 rounded-full border border-neutral-300"
@@ -226,13 +226,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           </button>
                         </div>
 
-                        {/* Price */}
                         <div className="text-right">
-                          <span className="text-xs font-bold text-neutral-950 font-mono">
+                          <span className="text-xs font-bold text-neutral-950">
                             {formatINR(item.product.price * item.quantity)}
                           </span>
                           {item.product.originalPrice > item.product.price && (
-                            <span className="text-[10px] text-neutral-400 line-through block font-mono">
+                            <span className="text-[10px] text-neutral-400 line-through block">
                               {formatINR(item.product.originalPrice * item.quantity)}
                             </span>
                           )}
@@ -291,7 +290,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 )}
 
                 {/* Subtotals breakdown */}
-                <div className="space-y-1.5 text-xs text-neutral-600 border-t border-neutral-200 pt-3 font-mono">
+                <div className="space-y-1.5 text-xs text-neutral-600 border-t border-neutral-200 pt-3">
                   <div className="flex justify-between">
                     <span>Subtotal (MRP)</span>
                     <span>{formatINR(totals.originalSubtotal)}</span>

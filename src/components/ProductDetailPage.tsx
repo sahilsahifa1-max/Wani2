@@ -14,6 +14,7 @@ import {
   ChevronDown,
   Ruler,
   MessageCircle,
+  Star,
 } from 'lucide-react';
 
 interface ProductDetailPageProps {
@@ -185,21 +186,25 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           {/* Right Column: Garment Information & Purchases (5 cols) */}
           <div className="lg:col-span-5 flex flex-col justify-start">
             <div className="pb-6 border-b border-neutral-200">
-              <div className="flex items-center gap-2 text-xs font-mono text-neutral-500 uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-xs text-neutral-500 uppercase tracking-wider mb-2 font-medium">
                 <span>{product.category}</span>
-                <span>•</span>
+                <span className="inline-block w-1 h-1 rounded-full bg-neutral-300" />
                 <span>{product.subcategory}</span>
-                <span>•</span>
-                <span className="text-amber-700 font-semibold">★ {product.rating} ({product.reviewsCount} reviews)</span>
+                <span className="inline-block w-1 h-1 rounded-full bg-neutral-300" />
+                <span className="flex items-center gap-1 text-amber-700 font-semibold">
+                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500 inline" />
+                  <span>{product.rating}</span>
+                  <span className="text-neutral-500">({product.reviewsCount} reviews)</span>
+                </span>
               </div>
 
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-950 leading-tight font-sans">
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-950 leading-tight">
                 {product.name}
               </h1>
 
               {/* Pricing section */}
               <div className="mt-4 flex items-baseline gap-3">
-                <span className="text-3xl font-extrabold text-neutral-950 font-sans">
+                <span className="text-3xl font-extrabold text-neutral-950">
                   {formatINR(product.price)}
                 </span>
                 {product.originalPrice > product.price && (
@@ -213,8 +218,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-neutral-500 mt-1 font-mono">
-                Inclusive of all taxes · Free delivery on orders over ₹1,999
+              <p className="text-[11px] text-neutral-500 mt-1">
+                Inclusive of all taxes · Free delivery on orders over {formatINR(1999)}
               </p>
 
               {/* Short editorial description */}

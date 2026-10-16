@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Product } from '../data/products.ts';
 import { formatINR, calculateSavings } from '../utils/shop.ts';
-import { Heart, Eye, ShoppingBag, Check } from 'lucide-react';
+import { Heart, Eye, ShoppingBag, Check, Star } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -165,7 +165,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div>
           <div className="flex items-center justify-between text-[11px] text-neutral-500 font-mono uppercase tracking-wider mb-1">
             <span>{product.category}</span>
-            <span>★ {product.rating} ({product.reviewsCount})</span>
+            <span className="flex items-center gap-1">
+              <Star className="w-3 h-3 fill-amber-500 text-amber-500 inline" />
+              <span>{product.rating}</span>
+              <span className="text-neutral-400">({product.reviewsCount})</span>
+            </span>
           </div>
 
           <h3

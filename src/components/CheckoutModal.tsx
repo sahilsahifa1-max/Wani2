@@ -301,7 +301,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 <div className="pt-4 border-t border-neutral-200 flex items-center justify-between">
                   <div className="text-xs">
                     <span className="text-neutral-500">Order Total: </span>
-                    <strong className="text-neutral-950 font-mono text-sm">{formatINR(totals.grandTotal)}</strong>
+                    <strong className="text-neutral-950 font-bold text-sm">{formatINR(totals.grandTotal)}</strong>
                   </div>
                   <button
                     type="submit"
@@ -434,7 +434,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   </div>
                   <div className="flex justify-between font-bold text-neutral-950 text-sm border-t border-neutral-200 pt-2">
                     <span>Payable Amount</span>
-                    <span className="font-mono">{formatINR(totals.grandTotal)}</span>
+                    <span className="font-bold">{formatINR(totals.grandTotal)}</span>
                   </div>
                 </div>
 
@@ -495,7 +495,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   </div>
                   <div className="flex justify-between font-bold text-neutral-950 pt-2 border-t border-neutral-200">
                     <span>Total Paid / Due:</span>
-                    <span className="font-mono text-sm">{formatINR(confirmedTotal)}</span>
+                    <span className="font-bold text-sm">{formatINR(confirmedTotal)}</span>
                   </div>
                 </div>
 

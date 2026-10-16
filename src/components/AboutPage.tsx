@@ -467,7 +467,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <span className="font-bold text-white tracking-widest uppercase">WEARZA</span>
-            <span>•</span>
+            <span className="inline-block w-1 h-1 rounded-full bg-neutral-600" />
             <span>Kanelwan Market, Kashmir</span>
           </div>
           <div>

@@ -121,11 +121,11 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                         </div>
 
                         <div className="mt-1 flex items-baseline gap-2">
-                          <span className="text-xs font-bold text-neutral-950 font-mono">
+                          <span className="text-xs font-bold text-neutral-950">
                             {formatINR(item.price)}
                           </span>
                           {item.originalPrice > item.price && (
-                            <span className="text-[10px] text-neutral-400 line-through font-mono">
+                            <span className="text-[10px] text-neutral-400 line-through">
                               {formatINR(item.originalPrice)}
                             </span>
                           )}
