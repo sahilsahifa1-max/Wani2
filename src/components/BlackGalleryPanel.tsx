@@ -146,12 +146,19 @@ export const BlackGalleryPanel: React.FC<BlackGalleryPanelProps> = ({
     }
   }, [scrollY, viewportHeight]);
 
+  // Track image load failures
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+
+  const handleImageError = (id: string) => {
+    setFailedImages((prev) => ({ ...prev, [id]: true }));
+  };
+
   return (
     <>
       {/* Black Gallery Panel: fixed, inset-0, z-index: 10 */}
       <section
         ref={panelRef}
-        aria-label="Wani General Store Gallery"
+        aria-label="Wearza Fashion Store Gallery"
         className="fixed inset-0 bg-black z-10 overflow-hidden pointer-events-auto select-none"
         style={{
           transform: `translate3d(0, ${viewportHeight || 1000}px, 0)`,
@@ -194,6 +201,7 @@ export const BlackGalleryPanel: React.FC<BlackGalleryPanelProps> = ({
 
                   const item = galleryImages[cell.imageIndex];
                   if (!item) return null;
+                  const hasFailed = failedImages[item.id];
 
                   return (
                     <div
@@ -210,33 +218,61 @@ export const BlackGalleryPanel: React.FC<BlackGalleryPanelProps> = ({
                           setSelectedItem(item);
                         }
                       }}
-                      className="bp-card group relative w-full aspect-[2/3] bg-neutral-900 overflow-hidden cursor-pointer rounded-xs border border-neutral-800/60 shadow-xl transition-shadow duration-300 hover:shadow-2xl hover:border-neutral-700"
+                      className="bp-card group relative w-full aspect-[2/3] bg-neutral-900 overflow-hidden cursor-pointer rounded-xs border border-neutral-800/80 shadow-xl transition-shadow duration-300 hover:shadow-2xl hover:border-neutral-700"
                       style={{
                         transform: 'scale(0)',
                         opacity: 0,
                       }}
                     >
-                      {/* Image */}
-                      <img
-                        src={item.src}
-                        alt={item.alt}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                      />
+                      {/* Image or Editorial Fallback */}
+                      {!hasFailed ? (
+                        <img
+                          src={item.src}
+                          alt={item.alt}
+                          loading="lazy"
+                          decoding="async"
+                          onError={() => handleImageError(item.id)}
+                          className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-b from-neutral-800 via-neutral-900 to-black p-5 flex flex-col justify-between border border-neutral-800">
+                          <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400">
+                            <span className="uppercase tracking-widest">WEARZA / ARCHIVE</span>
+                            <span>#{String(cell.imageIndex + 1).padStart(2, '0')}</span>
+                          </div>
+                          <div className="text-center py-6">
+                            <div className="w-10 h-10 mx-auto rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 mb-2">
+                              <Sparkles size={16} />
+                            </div>
+                            <span className="text-[10px] font-mono text-neutral-500 uppercase block truncate px-2">
+                              {item.filename || item.title}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block mb-1">
+                              {item.category}
+                            </span>
+                            <h4 className="text-xs font-semibold text-white uppercase tracking-tight line-clamp-1">
+                              {item.title}
+                            </h4>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Subtle Vignette & Caption Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100 flex flex-col justify-end p-3 md:p-5 text-white">
-                        <span className="text-[9px] md:text-[10px] font-mono tracking-widest uppercase text-neutral-400 mb-1">
-                          {item.category}
-                        </span>
-                        <h3 className="text-xs md:text-sm font-semibold tracking-tight uppercase leading-snug line-clamp-1">
-                          {item.title}
-                        </h3>
-                        <p className="text-[10px] md:text-[11px] text-neutral-300 line-clamp-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          {item.description}
-                        </p>
-                      </div>
+                      {!hasFailed && (
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100 flex flex-col justify-end p-3 md:p-5 text-white">
+                          <span className="text-[9px] md:text-[10px] font-mono tracking-widest uppercase text-neutral-400 mb-1">
+                            {item.category}
+                          </span>
+                          <h3 className="text-xs md:text-sm font-semibold tracking-tight uppercase leading-snug line-clamp-1">
+                            {item.title}
+                          </h3>
+                          <p className="text-[10px] md:text-[11px] text-neutral-300 line-clamp-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            {item.description}
+                          </p>
+                        </div>
+                      )}
 
                       {/* Corner Index Tag */}
                       <div className="absolute top-2 right-2 md:top-3 md:right-3 px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[9px] font-mono text-neutral-300 border border-white/10">
@@ -269,12 +305,24 @@ export const BlackGalleryPanel: React.FC<BlackGalleryPanelProps> = ({
               className="relative w-full max-w-2xl bg-neutral-950 text-white rounded-xl border border-neutral-800 shadow-2xl overflow-hidden z-10 flex flex-col md:flex-row"
             >
               {/* Product Image */}
-              <div className="w-full md:w-1/2 aspect-[3/4] bg-neutral-900 relative">
-                <img
-                  src={selectedItem.src}
-                  alt={selectedItem.alt}
-                  className="w-full h-full object-cover"
-                />
+              <div className="w-full md:w-1/2 aspect-[3/4] bg-neutral-900 relative flex items-center justify-center overflow-hidden">
+                {!failedImages[selectedItem.id] ? (
+                  <img
+                    src={selectedItem.src}
+                    alt={selectedItem.alt}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="p-8 text-center text-neutral-400">
+                    <Sparkles size={32} className="mx-auto mb-3 text-amber-400" />
+                    <span className="text-xs font-mono block text-neutral-300 uppercase">
+                      {selectedItem.filename || selectedItem.title}
+                    </span>
+                    <span className="text-[10px] text-neutral-500 uppercase mt-1 block">
+                      {selectedItem.filename ? `Path: /images/${selectedItem.filename}` : selectedItem.category}
+                    </span>
+                  </div>
+                )}
                 <div className="absolute top-3 left-3 px-2 py-0.5 bg-black/60 text-[10px] font-mono uppercase tracking-wider rounded border border-white/10">
                   {selectedItem.category}
                 </div>
@@ -285,7 +333,7 @@ export const BlackGalleryPanel: React.FC<BlackGalleryPanelProps> = ({
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
-                      WANI GENERAL STORE
+                      WEARZA FASHION STORE
                     </span>
                     <button
                       type="button"
@@ -306,15 +354,15 @@ export const BlackGalleryPanel: React.FC<BlackGalleryPanelProps> = ({
 
                   <div className="space-y-2 text-xs border-t border-neutral-800 pt-4 text-neutral-400">
                     <div className="flex items-center justify-between">
-                      <span>Origin & Material</span>
-                      <span className="text-neutral-200">Ethically Sourced</span>
+                      <span>Store Location</span>
+                      <span className="text-neutral-200">Kanelwan Market, Kashmir</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span>Care</span>
-                      <span className="text-neutral-200">Hand Wash / Natural Oil</span>
+                      <span>Category</span>
+                      <span className="text-neutral-200">Women's Fashion (₹)</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span>Store Status</span>
+                      <span>Availability</span>
                       <span className="text-white font-medium flex items-center gap-1">
                         <Sparkles size={12} className="text-amber-400" />
                         In-Store Showcase

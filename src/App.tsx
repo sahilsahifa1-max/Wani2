@@ -38,17 +38,10 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
-  // Track scroll position with requestAnimationFrame throttle
+  // Track scroll position
   useEffect(() => {
-    let rafId: number | null = null;
-
     const onScroll = () => {
-      if (!rafId) {
-        rafId = requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          rafId = null;
-        });
-      }
+      setScrollY(window.scrollY);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -56,7 +49,6 @@ export default function App() {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 

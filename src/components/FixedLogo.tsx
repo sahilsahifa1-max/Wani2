@@ -4,6 +4,8 @@ import { motion } from 'motion/react';
 /**
  * Fixed logo in the upper-left corner with 0.6s vertical entrance animation
  * and mix-blend-mode exclusion.
+ * Mobile: top 16px, left 16px, width 124px
+ * Desktop: top 32px, left 32px, width 355px (tablet ~266px)
  */
 export const FixedLogo: React.FC = () => {
   return (
@@ -20,14 +22,9 @@ export const FixedLogo: React.FC = () => {
       }}
     >
       <div className="w-[124px] md:w-[266px] lg:w-[355px] text-white">
-        <div className="flex flex-col">
-          <span className="font-extrabold tracking-[-0.05em] text-xl md:text-3xl lg:text-4xl uppercase leading-none">
-            WANI
-          </span>
-          <span className="font-medium tracking-[0.25em] text-[8px] md:text-[11px] lg:text-[12px] uppercase opacity-90 leading-tight mt-1">
-            GENERAL STORE
-          </span>
-        </div>
+        <h1 className="font-black tracking-[-0.06em] text-2xl md:text-4xl lg:text-5xl uppercase leading-none select-none">
+          WEARZA
+        </h1>
       </div>
     </motion.div>
   );

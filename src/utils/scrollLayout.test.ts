@@ -9,32 +9,35 @@ import {
 } from './scrollLayout.ts';
 
 test('buildLayout correctly places all items deterministically in scattered grid', () => {
-  const count = 10;
-  const cols = 4;
-  const layout = buildLayout(count, cols);
+  for (const count of [10, 16]) {
+    for (const cols of [2, 3, 4]) {
+      const layout = buildLayout(count, cols);
 
-  // Collect placed image indices
-  const placedIndices: number[] = [];
-  for (const row of layout) {
-    assert.equal(row.length, cols, 'Each row must have cols cells');
-    for (const cell of row) {
-      if (cell.imageIndex !== null) {
-        placedIndices.push(cell.imageIndex);
+      // Collect placed image indices
+      const placedIndices: number[] = [];
+      for (const row of layout) {
+        assert.equal(row.length, cols, 'Each row must have cols cells');
+        for (const cell of row) {
+          if (cell.imageIndex !== null) {
+            placedIndices.push(cell.imageIndex);
+          }
+        }
+      }
+
+      assert.equal(placedIndices.length, count, `Must place exactly ${count} images for cols=${cols}`);
+      // Check sequential ordering
+      for (let i = 0; i < count; i++) {
+        assert.equal(placedIndices[i], i, `Image index ${i} must be placed in order for count=${count}, cols=${cols}`);
       }
     }
   }
 
-  assert.equal(placedIndices.length, count, 'Must place exactly 10 images');
-  // Check sequential ordering
-  for (let i = 0; i < count; i++) {
-    assert.equal(placedIndices[i], i, `Image index ${i} must be placed in order`);
-  }
-
   // Row 0 check: r = 0, a = 0. r % 3 === 0, b = (0 + 2) % 4 = 2.
-  assert.equal(layout[0][0].imageIndex, 0);
-  assert.equal(layout[0][2].imageIndex, 1);
-  assert.equal(layout[0][1].imageIndex, null);
-  assert.equal(layout[0][3].imageIndex, null);
+  const layout4 = buildLayout(16, 4);
+  assert.equal(layout4[0][0].imageIndex, 0);
+  assert.equal(layout4[0][2].imageIndex, 1);
+  assert.equal(layout4[0][1].imageIndex, null);
+  assert.equal(layout4[0][3].imageIndex, null);
 });
 
 test('calculateVideoScrubbing handles center dead zone and edges properly', () => {

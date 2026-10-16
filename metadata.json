@@ -1,6 +1,6 @@
 {
-  "name": "Wani General Store",
-  "description": "Discover Wani General Store — everyday essentials, thoughtfully selected for your home and lifestyle. A cinematic, scroll-driven archive and showcase.",
+  "name": "Wearza Fashion Store",
+  "description": "Discover women's fashion at Wearza Fashion Store in Kanelwan Market, Kashmir. Explore our collection and contact us for product availability.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,10 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { calculateVideoScrubbing, type ActiveSide } from '../utils/scrollLayout.ts';
 
+/**
+ * Cloudinary Reference Embed URLs (as specified):
+ * LEFT:  https://player.cloudinary.com/embed/?cloud_name=ZUNFVBEL&public_id=VID_20261016_170215
+ * RIGHT: https://player.cloudinary.com/embed/?cloud_name=ZUNFVBEL&public_id=October_16__2026_720P_HD
+ *
+ * For HTML5 video elements requiring millisecond-precise cursor frame scrubbing,
+ * the corresponding Cloudinary direct delivery video MP4 streams are used.
+ */
+export const CLOUDINARY_LEFT_EMBED =
+  'https://player.cloudinary.com/embed/?cloud_name=ZUNFVBEL&public_id=VID_20261016_170215';
+export const CLOUDINARY_RIGHT_EMBED =
+  'https://player.cloudinary.com/embed/?cloud_name=ZUNFVBEL&public_id=October_16__2026_720P_HD';
+
 const LEFT_VIDEO_URL =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_39ca84eAE1ODL9hbR5VhoEj8tBf/hf_20260625_154433_532a85d3-dabf-4265-b8bd-19ac6af31842.mp4';
+  'https://res.cloudinary.com/zunfvbel/video/upload/VID_20261016_170215.mp4';
 const RIGHT_VIDEO_URL =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_39ca84eAE1ODL9hbR5VhoEj8tBf/hf_20260625_154401_a664f076-b971-4557-8728-40ef9ea4c49b.mp4';
+  'https://res.cloudinary.com/zunfvbel/video/upload/October_16__2026_720P_HD.mp4';
 
 interface HeroVideoProps {
   scrollY: number;
@@ -59,7 +72,7 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ scrollY, viewportHeight })
 
     checkReady();
 
-    // Fallback timer so UI never hangs blank even under strict network / headless conditions
+    // Fallback timer so UI never hangs blank
     const fallbackTimer = setTimeout(() => {
       setIsReady(true);
     }, 1200);
@@ -77,7 +90,7 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ scrollY, viewportHeight })
     };
   }, []);
 
-  // Interaction handlers (Desktop mouse scrubbing vs Mobile alternating playback)
+  // Interaction handlers (Desktop cursor scrubbing vs Mobile alternating playback)
   useEffect(() => {
     const isTouch =
       typeof window !== 'undefined' &&
@@ -139,7 +152,7 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ scrollY, viewportHeight })
         }
       };
     } else {
-      // Desktop: Pointer horizontal scrubbing
+      // Desktop: Cursor horizontal scrubbing with dead zone
       let pointerX = window.innerWidth / 2;
       let rafId: number | null = null;
 
@@ -150,16 +163,22 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ scrollY, viewportHeight })
         lastActiveSideRef.current = result.activeSide;
         setActiveSide(result.activeSide);
 
-        if (!result.inDeadZone) {
+        if (result.inDeadZone) {
+          // Inside center dead zone, set target video time to 0 without resetting active side
+          const activeVid = result.activeSide === 'right' ? rightVideo : leftVideo;
+          if (activeVid && !activeVid.seeking && activeVid.currentTime > 0.05) {
+            activeVid.currentTime = 0;
+          }
+        } else {
+          // Moving left activates right video, moving right activates left video
           if (result.activeSide === 'right' && rightVideo && rightVideo.duration && !rightVideo.seeking) {
             const targetTime = result.progress * rightVideo.duration;
-            // Prevent jitter with minimal delta check
-            if (Math.abs(rightVideo.currentTime - targetTime) > 0.04) {
+            if (Math.abs(rightVideo.currentTime - targetTime) > 0.03) {
               rightVideo.currentTime = targetTime;
             }
           } else if (result.activeSide === 'left' && leftVideo && leftVideo.duration && !leftVideo.seeking) {
             const targetTime = result.progress * leftVideo.duration;
-            if (Math.abs(leftVideo.currentTime - targetTime) > 0.04) {
+            if (Math.abs(leftVideo.currentTime - targetTime) > 0.03) {
               leftVideo.currentTime = targetTime;
             }
           }
@@ -186,9 +205,12 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ scrollY, viewportHeight })
 
   return (
     <div
+      id="main-canvas"
       aria-hidden="true"
-      className={`fixed transition-opacity duration-700 select-none ${
-        isPastFirstViewport ? 'opacity-0 pointer-events-none' : isReady ? 'opacity-100' : 'opacity-0'
+      data-cloudinary-left-embed={CLOUDINARY_LEFT_EMBED}
+      data-cloudinary-right-embed={CLOUDINARY_RIGHT_EMBED}
+      className={`fixed transition-opacity duration-700 select-none pointer-events-none ${
+        isPastFirstViewport ? 'opacity-0' : isReady ? 'opacity-100' : 'opacity-0'
       } inset-0 md:inset-0 top-[220px] md:top-0 h-[calc(100vh-220px)] md:h-full w-full z-0 overflow-hidden bg-neutral-900`}
       style={{
         visibility: isPastFirstViewport ? 'hidden' : 'visible',

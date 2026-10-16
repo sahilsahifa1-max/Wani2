@@ -21,7 +21,7 @@ export const Footer: React.FC<FooterProps> = ({ outroProgress }) => {
           pointerEvents: opacity > 0.2 ? 'auto' : 'none',
         }}
       >
-        <span>WANI GENERAL STORE © 2026</span>
+        <span>WEARZA FASHION STORE © 2026</span>
         <button
           type="button"
           onClick={() => setShowPrivacy(true)}
@@ -65,7 +65,7 @@ export const Footer: React.FC<FooterProps> = ({ outroProgress }) => {
 
               <div className="py-4 space-y-3 text-xs leading-relaxed text-neutral-300">
                 <p>
-                  <strong>Wani General Store</strong> values your privacy. We collect minimal customer contact information solely to process orders, answer inquiries, and ensure exceptional service.
+                  <strong>Wearza Fashion Store</strong> values your privacy. We collect minimal customer contact information solely to process orders, answer inquiries, and ensure exceptional service.
                 </p>
                 <p>
                   We do not sell, rent, or distribute personal data to third parties. All communication submitted through our direct order desk remains strictly confidential.

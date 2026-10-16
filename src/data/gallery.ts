@@ -1,9 +1,17 @@
 /**
- * WANI GENERAL STORE — GALLERY IMAGES DATA
+ * WEARZA — GALLERY IMAGES DATA
  * 
- * TO CUSTOMIZE GALLERY IMAGES:
- * Replace the image URLs in this array with your own store image URLs or local paths in /public.
- * The layout will automatically adapt to the number of images provided.
+ * 10 Cloudinary fashion gallery images in exact specified order:
+ * 1. 1000001133
+ * 2. 1000001134
+ * 3. 1000001138
+ * 4. 1000001139
+ * 5. 1000001140
+ * 6. 1000001143
+ * 7. 1000001145
+ * 8. 1000001146
+ * 9. 1000001149
+ * 10. 1000001150
  */
 
 export interface GalleryItem {
@@ -13,87 +21,99 @@ export interface GalleryItem {
   alt: string;
   category: string;
   description: string;
+  price?: string;
+  filename?: string;
 }
 
 export const galleryImages: GalleryItem[] = [
   {
-    id: 'wani-01',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_104530_521b2f85-c0f3-4d0e-9704-b578315b4cb9.png&w=1920&q=85',
-    title: 'Minimalist Stoneware Carafe',
-    alt: 'Handcrafted minimalist ceramic pitcher from Wani General Store',
-    category: 'Kitchenware',
-    description: 'Matte glazed stoneware crafted for everyday hydration rituals.',
+    id: 'wearza-01',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001133',
+    title: 'Archive Silhouette 01',
+    alt: 'WEARZA women fashion archive item 01',
+    category: 'Everyday Wear',
+    description: 'Contemporary women’s tailoring with relaxed silhouette and refined lines.',
+    price: '$97,33',
   },
   {
-    id: 'wani-02',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103711_76ccdb8b-5043-4f47-9c54-4379713393ea.png&w=1920&q=85',
-    title: 'Textured Linen Throw',
-    alt: 'Natural textured raw linen textile fold',
-    category: 'Living',
-    description: 'Woven organic linen in natural oatmeal shade.',
+    id: 'wearza-02',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001134',
+    title: 'Archive Silhouette 02',
+    alt: 'WEARZA women fashion archive item 02',
+    category: 'Casual Wear',
+    description: 'Casual elegance tailored with comfortable drape for versatile daywear.',
+    price: '$97,33',
   },
   {
-    id: 'wani-03',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103728_394f6a1b-85e2-4386-a4f6-408472a0a5b7.png&w=1920&q=85',
-    title: 'Brushed Brass Objects',
-    alt: 'Brushed brass geometric desk and table accessories',
-    category: 'Objects',
-    description: 'Precision milled solid brass with satin hand-finished patina.',
+    id: 'wearza-03',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001138',
+    title: 'Archive Silhouette 03',
+    alt: 'WEARZA women fashion archive item 03',
+    category: 'Occasion Wear',
+    description: 'Sophisticated festive piece blending traditional craftsmanship with modern edge.',
+    price: '$97,33',
   },
   {
-    id: 'wani-04',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103739_86743e0e-16a7-4bee-bf38-dd67985344dc.png&w=1920&q=85',
-    title: 'Hand-Poured Soy Candle',
-    alt: 'Amber glass jar candle with botanical wax',
-    category: 'Aromatics',
-    description: 'Smoked cedar, hinoki wood, and wild vetiver botanicals.',
+    id: 'wearza-04',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001139',
+    title: 'Archive Silhouette 04',
+    alt: 'WEARZA women fashion archive item 04',
+    category: 'Modern Fashion',
+    description: 'Clean architectural cut featuring signature WEARZA tonal palette.',
+    price: '$97,33',
   },
   {
-    id: 'wani-05',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103748_b2215dc8-a3a7-470d-b19a-5b87fa7d0c37.png&w=1920&q=85',
-    title: 'Turned Walnut Vessel',
-    alt: 'Solid wood turned vessel showing natural grain',
-    category: 'Tabletop',
-    description: 'Locally salvaged American black walnut shaped on a wood lathe.',
+    id: 'wearza-05',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001140',
+    title: 'Archive Silhouette 05',
+    alt: 'WEARZA women fashion archive item 05',
+    category: 'Everyday Wear',
+    description: 'Tactile natural textile structured for everyday comfort and modern presence.',
+    price: '$97,33',
   },
   {
-    id: 'wani-06',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103758_e919ce72-5c9d-4b87-9be6-d7647b34825c.png&w=1920&q=85',
-    title: 'Japanese Paper Journal',
-    alt: 'Archival bound notebook with recycled washi paper',
-    category: 'Stationery',
-    description: 'Fountain-pen friendly cream leaves bound in tactile linen cover.',
+    id: 'wearza-06',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001143',
+    title: 'Archive Silhouette 06',
+    alt: 'WEARZA women fashion archive item 06',
+    category: 'Dresses & Tops',
+    description: 'Editorial draped silhouette with artisanal details from Kashmir.',
+    price: '$97,33',
   },
   {
-    id: 'wani-07',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103808_013583d0-3386-4547-9832-37c7d8edb3ac.png&w=1920&q=85',
-    title: 'Cast Iron Kettle',
-    alt: 'Traditional matte black cast iron tea kettle',
-    category: 'Kitchenware',
-    description: 'Substantial heat-retaining cast iron with enamel interior.',
+    id: 'wearza-07',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001145',
+    title: 'Archive Silhouette 07',
+    alt: 'WEARZA women fashion archive item 07',
+    category: 'Traditional-Inspired',
+    description: 'Classic Kashmiri-inspired lines reinterpreted for contemporary wardrobes.',
+    price: '$97,33',
   },
   {
-    id: 'wani-08',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103937_a0c49d0a-33eb-4ead-aea6-c1baf241acbc.png&w=1920&q=85',
-    title: 'Hand-woven Hemp Tote',
-    alt: 'Durable structured natural hemp carrier bag',
-    category: 'Carry',
-    description: 'High-tensile raw hemp canvas reinforced with copper rivets.',
+    id: 'wearza-08',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001146',
+    title: 'Archive Silhouette 08',
+    alt: 'WEARZA women fashion archive item 08',
+    category: 'Seasonal Collection',
+    description: 'Layering outerwear piece designed for mountain climate and all-day ease.',
+    price: '$97,33',
   },
   {
-    id: 'wani-09',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103956_d18ed8fd-7b6f-4b86-91f9-20010fe38670.png&w=1920&q=85',
-    title: 'Sculptural Ceramic Mug',
-    alt: 'Earthy unglazed ceramic mug with geometric handle',
-    category: 'Tabletop',
-    description: 'Ergonomic proportion wheel-thrown from speckled red clay.',
+    id: 'wearza-09',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001149',
+    title: 'Archive Silhouette 09',
+    alt: 'WEARZA women fashion archive item 09',
+    category: 'Modern Fashion',
+    description: 'Understated monochrome styling crafted for versatile transitions.',
+    price: '$97,33',
   },
   {
-    id: 'wani-10',
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_104034_ba5a9963-87ff-4008-a545-6bd686c088b5.png&w=1920&q=85',
-    title: 'Botanical Incense & Stand',
-    alt: 'Natural incense bundle with stone burner stand',
-    category: 'Aromatics',
-    description: 'Pressed sandalwood herbs and mountain flora incense sticks.',
+    id: 'wearza-10',
+    src: 'https://res.cloudinary.com/zunfvbel/image/upload/f_auto,q_auto/1000001150',
+    title: 'Archive Silhouette 10',
+    alt: 'WEARZA women fashion archive item 10',
+    category: 'Occasion Wear',
+    description: 'Statement archive garment showcasing tactile textures and timeless proportions.',
+    price: '$97,33',
   },
 ];

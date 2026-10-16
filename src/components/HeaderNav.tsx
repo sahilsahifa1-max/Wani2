@@ -96,7 +96,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
               <div>
                 <div className="flex items-center justify-between mb-12">
                   <div className="text-xs uppercase tracking-widest text-neutral-400">
-                    WANI GENERAL STORE
+                    WEARZA FASHION STORE
                   </div>
                   <button
                     type="button"
@@ -143,18 +143,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
               <div className="border-t border-neutral-800 pt-8 mt-12 space-y-4 text-xs text-neutral-400">
                 <div className="flex items-center gap-2">
                   <MapPin size={14} className="text-neutral-300" />
-                  <span>Main Bazaar, Srinagar / Wani Store Flagship</span>
+                  <span>Kanelwan Market, Kashmir, Jammu and Kashmir, India</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock size={14} className="text-neutral-300" />
-                  <span>Monday – Saturday: 10:00 AM – 7:30 PM</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone size={14} className="text-neutral-300" />
-                  <span>+91 94190 00000</span>
+                  <ShoppingBag size={14} className="text-neutral-300" />
+                  <span>Curated Women's & Girls' Fashion</span>
                 </div>
                 <div className="text-[11px] text-neutral-500 pt-4">
-                  WANI GENERAL STORE © 2026. ALL RIGHTS RESERVED.
+                  WEARZA FASHION STORE © 2026. ALL RIGHTS RESERVED.
                 </div>
               </div>
             </motion.div>
@@ -202,8 +198,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
                 </div>
 
                 <div className="p-4 bg-neutral-900 border border-neutral-800 rounded-lg text-xs leading-relaxed text-neutral-300 mb-6">
-                  <p className="font-medium text-white mb-1">Direct Store Order Desk</p>
-                  We provide bespoke procurement and everyday lifestyle goods directly from our store. Submit your desired items or inquiry below and our storekeeper will arrange holding or delivery.
+                  <p className="font-medium text-white mb-1">Wearza Direct Fashion Desk</p>
+                  Explore our collection of women's clothing, ethnic wear, and festive apparel. Submit your desired styles, sizes, or inquiries below and our team at Kanelwan Market will assist you with availability.
                 </div>
 
                 {enquirySent ? (
@@ -217,7 +213,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
                     </div>
                     <h4 className="text-sm font-semibold uppercase">Inquiry Received</h4>
                     <p className="text-xs text-neutral-400">
-                      Thank you for contacting Wani General Store. A team member will respond to your request shortly.
+                      Thank you for contacting Wearza Fashion Store. A team member will respond to your request shortly.
                     </p>
                     <button
                       type="button"
@@ -242,29 +238,29 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Tariq Ahmad"
+                        placeholder="e.g. Ayesha"
                         className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-white"
                       />
                     </div>
                     <div>
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-400 mb-1">
-                        Email or Phone
+                        Email or Contact
                       </label>
                       <input
                         type="text"
                         required
-                        placeholder="contact@example.com or +91..."
+                        placeholder="your contact detail..."
                         className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-white"
                       />
                     </div>
                     <div>
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-400 mb-1">
-                        Items or Inquiries
+                        Items, Sizes or Inquiries
                       </label>
                       <textarea
                         rows={3}
                         required
-                        placeholder="Specify everyday essentials, quantities, or product questions..."
+                        placeholder="Specify styles, sizes, occasion wear, or product availability..."
                         className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-white resize-none"
                       />
                     </div>
@@ -280,7 +276,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
               </div>
 
               <div className="border-t border-neutral-800 pt-6 text-[11px] text-neutral-500">
-                Wani General Store does not execute unverified checkout flows. All orders are confirmed with customer care.
+                Wearza Fashion Store processes direct boutique inquiries for our Kanelwan Market store collection.
               </div>
             </motion.div>
           </div>
@@ -306,8 +302,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
             >
               <div className="flex items-center justify-between pb-6 border-b border-neutral-800">
                 <div>
-                  <h3 className="text-xl font-bold tracking-tight uppercase">About Wani General Store</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Established with an appreciation for honest utility</p>
+                  <h3 className="text-xl font-bold tracking-tight uppercase">About Wearza Fashion Store</h3>
+                  <p className="text-xs text-neutral-400 mt-1">Kanelwan Market, Kashmir</p>
                 </div>
                 <button
                   type="button"
@@ -321,19 +317,19 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
 
               <div className="py-6 space-y-4 text-sm leading-relaxed text-neutral-300">
                 <p>
-                  At <strong className="text-white">Wani General Store</strong>, we believe everyday essentials deserve thoughtful consideration. From tactile ceramics and woven linens to honest kitchenware and apothecary, each piece in our archive is chosen for enduring craftsmanship, natural materials, and quiet aesthetic presence.
+                  <strong className="text-white">Wearza Fashion Store</strong> brings you a thoughtfully selected range of women's fashion, combining style, comfort, and affordability. Visit us at Kanelwan Market, Kashmir, to explore our collection.
                 </p>
                 <p>
-                  Rather than fast trends, our collection celebrates items that age gracefully with daily use. Whether you are setting a morning table or outfitting a creative studio, our goods bring balanced utility to modern living.
+                  Dedicated to women and girls, our boutique offers an inspired variety of everyday outfits, festive ensembles, and timeless seasonal silhouettes in Indian Rupees (₹).
                 </p>
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-900 text-xs text-neutral-400">
                   <div>
-                    <span className="block text-white font-medium mb-1">FOUNDATION</span>
-                    Curated utility, honest materials, and regional craftsmanship.
+                    <span className="block text-white font-medium mb-1">LOCATION</span>
+                    Kanelwan Market, Kashmir, Jammu and Kashmir, India.
                   </div>
                   <div>
-                    <span className="block text-white font-medium mb-1">ETHOS</span>
-                    Durability over disposability. Simplicity over excess.
+                    <span className="block text-white font-medium mb-1">FOCUS</span>
+                    Women's & girls' fashion for every occasion.
                   </div>
                 </div>
               </div>
