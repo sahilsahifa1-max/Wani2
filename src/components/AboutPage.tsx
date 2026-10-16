@@ -126,7 +126,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
                 <span className="block text-white font-medium uppercase tracking-wider mb-1 font-mono">
                   Currency
                 </span>
-                <span className="font-sans">Indian Rupees (₹ INR)</span>
+                <span>Indian Rupees (INR)</span>
               </div>
             </div>
 
@@ -303,7 +303,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
                     <ShoppingBag className="w-4 h-4 text-white flex-shrink-0 mt-0.5" />
                     <div>
                       <strong className="block text-white font-medium">Offerings:</strong>
-                      Curated Women's & Girls' Apparel in Indian Rupees (₹ INR)
+                      Curated Women's & Girls' Apparel in Indian Rupees (INR)
                     </div>
                   </div>
                 </div>
