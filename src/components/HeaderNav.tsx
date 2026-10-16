@@ -4,9 +4,10 @@ import { X, ArrowRight, ShoppingBag, MapPin, Clock, Phone, Mail } from 'lucide-r
 
 interface HeaderNavProps {
   onNavigateSection?: (sectionId: string) => void;
+  onNavigateAbout?: () => void;
 }
 
-export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
+export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection, onNavigateAbout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -15,7 +16,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
   const handleNavClick = (section: string) => {
     setIsMenuOpen(false);
     if (section === 'about') {
-      setIsAboutOpen(true);
+      if (onNavigateAbout) {
+        onNavigateAbout();
+      } else {
+        setIsAboutOpen(true);
+      }
     } else if (section === 'collections') {
       if (onNavigateSection) {
         onNavigateSection('gallery');
@@ -46,7 +51,13 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateSection }) => {
           {/* ABOUT Button */}
           <button
             type="button"
-            onClick={() => setIsAboutOpen(true)}
+            onClick={() => {
+              if (onNavigateAbout) {
+                onNavigateAbout();
+              } else {
+                setIsAboutOpen(true);
+              }
+            }}
             className="hidden sm:inline-block pointer-events-auto text-[13px] md:text-[15px] font-medium tracking-tight uppercase hover:opacity-70 transition-opacity cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-white"
           >
             ABOUT

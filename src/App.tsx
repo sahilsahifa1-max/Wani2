@@ -14,9 +14,16 @@ import { StoreInfo } from './components/StoreInfo.tsx';
 import { OutroOverlay } from './components/OutroOverlay.tsx';
 import { ViewButton } from './components/ViewButton.tsx';
 import { Footer } from './components/Footer.tsx';
+import { AboutPage } from './components/AboutPage.tsx';
 import { calculateOutroProgress, calculateSpacerHeight } from './utils/scrollLayout.ts';
 
 export default function App() {
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return window.location.pathname;
+    }
+    return '/';
+  });
   const [scrollY, setScrollY] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(
     typeof window !== 'undefined' ? window.innerHeight : 900
@@ -25,6 +32,23 @@ export default function App() {
     typeof window !== 'undefined' ? window.innerWidth : 1440
   );
   const [maxScroll, setMaxScroll] = useState(1200);
+
+  // Sync with browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path: string) => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', path);
+      setCurrentPath(path);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  };
 
   // Measure window dimensions
   const handleResize = useCallback(() => {
@@ -84,6 +108,23 @@ export default function App() {
     }
   };
 
+  if (currentPath === '/about') {
+    return (
+      <div className="relative min-h-screen bg-neutral-950">
+        <CustomCursor />
+        <AboutPage
+          onNavigateHome={() => navigateTo('/')}
+          onNavigateCollections={() => {
+            navigateTo('/');
+            setTimeout(() => {
+              window.scrollTo({ top: viewportHeight + 50, behavior: 'smooth' });
+            }, 100);
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       id="scroll-spacer"
@@ -105,7 +146,10 @@ export default function App() {
       <HeroCaption scrollY={scrollY} viewportHeight={viewportHeight} />
 
       {/* Fixed Overlay: Header Navigation */}
-      <HeaderNav onNavigateSection={handleNavigateSection} />
+      <HeaderNav
+        onNavigateSection={handleNavigateSection}
+        onNavigateAbout={() => navigateTo('/about')}
+      />
 
       {/* Fixed Black Gallery Panel with Scattered Image Grid */}
       <BlackGalleryPanel
